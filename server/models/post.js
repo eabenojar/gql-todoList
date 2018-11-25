@@ -1,4 +1,4 @@
-const mongoose = require("mongoooe");
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
@@ -7,7 +7,8 @@ const postSchema = new Schema({
     required: true
   },
   description: {
-    type: String
+    type: String,
+    required: true
   },
   authorId: {
     type: Schema.Types.ObjectId,

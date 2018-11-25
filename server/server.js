@@ -1,6 +1,6 @@
 const express = require("express");
 const graphqlHTTP = require("express-graphql");
-const MyGraphQLSchema = require("./schema");
+const MyGraphQLSchema = require("./schema/schema");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
@@ -15,9 +15,11 @@ app.use(
 );
 
 mongoose.connect(process.env.MONGO_URI);
-mongoose.connection.once("open", () => {
-  console.log("Success!!! Conneted to your database");
-});
+mongoose.connection
+  .once("open", () => {
+    console.log("Success!!! Conneted to your database");
+  })
+  .on("error", error => console.log("Error connecting to MongoLab:", error));
 
 const PORT = process.env.PORT || 4000;
 
