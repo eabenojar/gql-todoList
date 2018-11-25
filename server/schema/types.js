@@ -7,6 +7,8 @@ const {
   GraphQLInt,
   GraphQLString
 } = graphql;
+const Author = require("../models/author");
+const Post = require("../models/post");
 
 // Posts type
 const PostType = new GraphQLObjectType({
@@ -14,13 +16,13 @@ const PostType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLString },
     title: { type: GraphQLString },
-    description: { type: GraphQLString },
-    author: {
-      type: AuthorType,
-      resolve(parent, args) {
-        return null;
-      }
-    }
+    description: { type: GraphQLString }
+    // author: {
+    //   type: AuthorType,
+    //   resolve(parent, args) {
+    //     return Post.findById(parent.id);
+    //   }
+    // }
   })
 });
 
@@ -28,12 +30,14 @@ const PostType = new GraphQLObjectType({
 const AuthorType = new GraphQLObjectType({
   name: "Author",
   fields: () => ({
+    id: { type: GraphQLString },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
     posts: {
       type: new GraphQLList(PostType),
       resolve(parent, args) {
-        return null;
+        console.log("PARENT", parent.id);
+        return Author.findPosts(parent.id);
       }
     }
   })

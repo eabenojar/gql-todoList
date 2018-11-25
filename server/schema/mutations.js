@@ -39,7 +39,7 @@ const mutation = new GraphQLObjectType({
           .catch(err => console.log(err));
       }
     },
-    addPost: {
+    addPostToAuthor: {
       type: PostType,
       args: {
         authorId: { type: GraphQLNonNull(GraphQLString) },
@@ -47,19 +47,22 @@ const mutation = new GraphQLObjectType({
         description: { type: GraphQLNonNull(GraphQLString) }
       },
       resolve(parent, args) {
-        console.log("ARGS", args, Post);
-        let newPost = new Post({
-          title: args.title,
-          description: args.description,
-          authorId: args.authorId
-        });
-        return newPost
-          .save()
-          .then(res => {
-            console.log("SUCCESS", res);
-            return res;
-          })
-          .catch(err => console.log(err));
+        console.log("ARRSSSSSS", args);
+        console.log("AUTHOR", Author.addPost());
+        return Author.addPost(args.authorId, args.title, args.description);
+        //     let newPost = new Post({
+        //       title: args.title,
+        //       description: args.description,
+        //       authorId: args.authorId
+        //     });
+        //     return newPost
+        //       .save()
+        //       .then(res => {
+        //         console.log("SUCCESS", res);
+        //         return res;
+        //       })
+        //       .catch(err => console.log(err));
+        //   }
       }
     }
   }
