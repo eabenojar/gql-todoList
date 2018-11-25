@@ -6,6 +6,8 @@ const {
   GraphQLList,
   GraphQLSchema
 } = require("graphql");
+const graphql = require("graphql");
+const _ = require("lodash");
 
 const PostType = new GraphQLObjectType({
   name: "Post",
@@ -37,6 +39,17 @@ const AuthorType = new GraphQLObjectType({
   })
 });
 
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+        addPost: {
+            type: PostType,
+            args: {
+                
+            }
+        }
+    }
+})
 const RootQuery = new GraphQLObjectType({
   name: "RootQuery",
   fields: {
@@ -47,6 +60,12 @@ const RootQuery = new GraphQLObjectType({
       },
       resolve(parent, args) {
         return null;
+      }
+    },
+    posts: {
+      type: new GraphQLList(PostType),
+      resolve(parent, args) {
+        return Post_.find();
       }
     }
   }
