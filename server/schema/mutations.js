@@ -50,19 +50,6 @@ const mutation = new GraphQLObjectType({
         console.log("ARRSSSSSS", args);
         console.log("AUTHOR", Author.addPost());
         return Author.addPost(args.authorId, args.title, args.description);
-        //     let newPost = new Post({
-        //       title: args.title,
-        //       description: args.description,
-        //       authorId: args.authorId
-        //     });
-        //     return newPost
-        //       .save()
-        //       .then(res => {
-        //         console.log("SUCCESS", res);
-        //         return res;
-        //       })
-        //       .catch(err => console.log(err));
-        //   }
       }
     }
   }

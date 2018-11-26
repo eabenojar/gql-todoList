@@ -29,7 +29,9 @@ authorSchema.statics.addPost = function(authorId, title, description) {
     });
     author.posts.push(post);
     return Promise.all([post.save(), author.save()])
-      .then(([post, author]) => author)
+      .then(([post, author]) => {
+        return post;
+      })
       .catch(err => console.log(err));
   });
 };
