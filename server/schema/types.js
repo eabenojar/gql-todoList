@@ -16,13 +16,13 @@ const PostType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLString },
     title: { type: GraphQLString },
-    description: { type: GraphQLString }
-    // author: {
-    //   type: AuthorType,
-    //   resolve(parent, args) {
-    //     return Post.findById(parent.id);
-    //   }
-    // }
+    description: { type: GraphQLString },
+    author: {
+      type: AuthorType,
+      resolve(parent, args) {
+        return Author.findById(parent.authorId);
+      }
+    }
   })
 });
 

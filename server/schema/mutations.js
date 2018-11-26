@@ -5,7 +5,8 @@ const {
   GraphQLList,
   GraphQLString,
   GraphQLNonNull,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLID
 } = graphql;
 const Author = require("../models/author");
 const Post = require("../models/post");
@@ -50,6 +51,70 @@ const mutation = new GraphQLObjectType({
         console.log("ARRSSSSSS", args);
         console.log("AUTHOR", Author.addPost());
         return Author.addPost(args.authorId, args.title, args.description);
+      }
+    },
+    deletePost: {
+      type: PostType,
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLID)
+        }
+      },
+      resolve(parent, args) {
+        return Post.findByIdAndRemove(args.id).then(post => {
+          Author.findById(post.authorId).then(author => {
+            const updatePost = [...author.posts];
+
+            console.log("AUTHOR", author);
+          });
+          console.log("RETURN POST FOUND", post);
+          return post;
+        });
+      }
+    },
+    deleteAuthor: {
+      type: AuthorType,
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLID)
+        }
+      },
+      resolve(parent, args) {
+        return Author.findByIdAndRemove(args.id);
+      }
+    },
+    updatePost: {
+      type: PostType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+        title: { type: GraphQLString },
+        description: { type: GraphQLString }
+      },
+      resolve(parent, args) {
+        return Post.findByIdAndUpdate(
+          args.id,
+          {
+            title: args.title,
+            description: args.description
+          },
+          { new: true }
+        )
+          .then(post => {
+            console.log("POOSSSSTT", post);
+            return post;
+          })
+          .catch(err => console.log(err));
+      }
+    },
+    updateAuthor: {
+      type: AuthorType,
+      args: {
+        id: { type: GraphQLString },
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt }
+      },
+      resolve(parent, args) {
+        return null;
       }
     }
   }
