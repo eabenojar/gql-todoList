@@ -114,7 +114,18 @@ const mutation = new GraphQLObjectType({
         age: { type: GraphQLInt }
       },
       resolve(parent, args) {
-        return null;
+        return Author.findByIdAndUpdate(
+          args.id,
+          {
+            name: args.name,
+            age: args.age
+          },
+          { new: true }
+        )
+          .then(author => {
+            return author;
+          })
+          .catch(err => console.log(err));
       }
     }
   }
