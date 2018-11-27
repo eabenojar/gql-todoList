@@ -6,10 +6,10 @@ const cors = require("cors");
 
 require("dotenv").config();
 
+const app = express();
+
 // Allow cross-origin
 app.use(cors());
-
-const app = express();
 
 app.use(
   "/graphql",

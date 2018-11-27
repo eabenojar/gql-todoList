@@ -1,6 +1,12 @@
 const mongoose = require("mongoose");
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLNonNull } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLList,
+  GraphQLID,
+  GraphQLNonNull,
+  GraphQLString
+} = graphql;
 const Author = require("../models/author");
 const Post = require("../models/post");
 const { PostType, AuthorType } = require("./types");
@@ -27,6 +33,15 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(AuthorType),
       resolve(parent, args) {
         return Author.find({});
+      }
+    },
+    author: {
+      type: AuthorType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve(parent, args) {
+        return Author.findById(args.id);
       }
     }
   }

@@ -15,7 +15,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #000000;
 }
 
 .App-link {
@@ -29,4 +29,16 @@
   to {
     transform: rotate(360deg);
   }
+}
+.card-style {
+  padding: 0px 10px;
+  margin: 10px;
+}
+.posts {
+  height: 80px;
+  width: 200px;
+  background-color: #fff;
+}
+.posts p {
+  font-size: 12px;
 }

@@ -26,7 +26,7 @@ const mutation = new GraphQLObjectType({
         age: { type: new GraphQLNonNull(GraphQLInt) }
       },
       resolve(parent, args) {
-        console.log("ADDDDDDDED", args);
+        console.log("ADDDDDDDED SEVERRRR", args);
         let newAuthor = new Author({
           name: args.name,
           age: args.age
@@ -57,7 +57,7 @@ const mutation = new GraphQLObjectType({
       type: PostType,
       args: {
         id: {
-          type: new GraphQLNonNull(GraphQLID)
+          type: new GraphQLNonNull(GraphQLString)
         }
       },
       resolve(parent, args) {
