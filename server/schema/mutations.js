@@ -61,6 +61,7 @@ const mutation = new GraphQLObjectType({
         }
       },
       resolve(parent, args) {
+        console.log("DETELE POST SERVER", args);
         return Post.findByIdAndRemove(args.id).then(post => {
           Author.findById(post.authorId).then(author => {
             const updatePost = [...author.posts];

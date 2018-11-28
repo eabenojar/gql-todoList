@@ -32,16 +32,13 @@ const DELETE_AUTHOR = gql`
 class Authors extends Component {
   constructor(props) {
     super(props);
-    this.deleteAuthor = this.deleteAuthor.bind(this);
     this.cardInfo = this.cardInfo.bind(this);
 
     this.state = {
       authors: []
     };
   }
-  deleteAuthor(item) {
-    console.log("DELETE", item);
-  }
+
   cardInfo(item) {
     console.log("CARD INFO");
     this.props.history.push({
@@ -52,7 +49,7 @@ class Authors extends Component {
   render() {
     console.log("PROPS AUTHOR", this.props);
     return (
-      <Query query={GET_AUTHORS}>
+      <Query query={GET_AUTHORS} partialRefetch={true}>
         {({ loading, error, data }) => {
           if (loading) return "Loading...";
           if (error) return `Error! ${error.message}`;
