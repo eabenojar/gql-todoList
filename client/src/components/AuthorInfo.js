@@ -31,8 +31,7 @@ class AuthorInfo extends Component {
     this.state = {};
   }
   render() {
-    console.log("PROPS AUTHOR INFO", this.props);
-    const { id, name, age, posts } = this.props.location.state;
+    const { id } = this.props.location.state;
 
     return (
       <Query query={GET_AUTHOR} variables={{ id }}>
