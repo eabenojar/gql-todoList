@@ -12,6 +12,21 @@ const ADD_AUTHOR = gql`
   }
 `;
 
+const GET_AUTHORS = gql`
+  {
+    authors {
+      id
+      name
+      age
+      posts {
+        id
+        title
+        description
+      }
+    }
+  }
+`;
+
 class AuthorForm extends Component {
   constructor(props) {
     super(props);
@@ -33,9 +48,9 @@ class AuthorForm extends Component {
     event.preventDefault();
   }
   render() {
-    console.log("name", typeof this.state.name, typeof this.state.age);
+    console.log("AUTHOR FORM PROPS", this.props);
     return (
-      <Mutation mutation={ADD_AUTHOR}>
+      <Mutation mutation={ADD_AUTHOR} refetchQueries={[{ query: GET_AUTHORS }]}>
         {(addAuthor, { data }) => {
           return (
             <div>
@@ -48,7 +63,9 @@ class AuthorForm extends Component {
                       name: this.state.name,
                       age: parseInt(this.state.age)
                     }
-                  });
+                  })
+                    .then(() => this.props.history.push("/"))
+                    .catch(err => console.log(err));
                 }}
               >
                 <label>

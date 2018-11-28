@@ -13,7 +13,7 @@ const DELETE_POST = gql`
 `;
 
 const GET_AUTHOR = gql`
-  query GetAuthor($id: String!) {
+  query GetAuthor($id: ID!) {
     author(id: $id) {
       id
       name
@@ -77,27 +77,34 @@ class AuthorInfo extends Component {
   }
 
   render() {
-    const { id } = this.props.location.state;
+    const id = this.props.location.state.id.toString();
     console.log(
       "AUTHOR INFO PROPS",
-      this.state,
+      this.props,
       "ID",
-      typeof this.state.authorId
+      this.props.location.state.id,
+      id
     );
     return (
-      <Query
-        query={GET_AUTHOR}
-        variables={{ id: this.state.authorId }}
-        partialRefetch={true}
-      >
+      <Query query={GET_AUTHOR} variables={{ id: id }}>
         {({ loading, error, data, refetch }) => {
           if (loading) return "Loading...";
           if (error) return `Error! ${error.message}`;
+          console.log(
+            "DATA FROM GET AUTHOR",
+            data,
+            this.props.location.state.id
+          );
           return (
             <div>
               <Mutation
                 mutation={ADD_POST}
-                refetchQueries={[{ query: GET_AUTHOR }]}
+                refetchQueries={[
+                  {
+                    query: GET_AUTHOR,
+                    variables: { id: this.props.location.state.id }
+                  }
+                ]}
               >
                 {AddPostToAuthor => {
                   return (
@@ -149,7 +156,12 @@ class AuthorInfo extends Component {
                     </div>
                     <Mutation
                       mutation={DELETE_POST}
-                      refetchQueries={[{ query: GET_AUTHOR }]}
+                      refetchQueries={[
+                        {
+                          query: GET_AUTHOR,
+                          variables: { id: this.props.location.state.id }
+                        }
+                      ]}
                       key={index}
                     >
                       {(deletePost, { data }) => {

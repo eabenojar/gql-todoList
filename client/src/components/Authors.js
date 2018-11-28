@@ -56,16 +56,16 @@ class Authors extends Component {
 
           return data.authors.map(({ name, id, posts, age }, index) => {
             return (
-              <Card
-                key={index}
-                classes={{ root: "card-style" }}
-                onClick={() => this.cardInfo({ name, id, posts, age })}
-              >
-                <h5>Author: {name}</h5>
+              <div key={index}>
+                <Card
+                  classes={{ root: "card-style" }}
+                  onClick={() => this.cardInfo({ name, id, posts, age })}
+                >
+                  <h5>Author: {name}</h5>
+                </Card>
                 <Mutation
                   mutation={DELETE_AUTHOR}
                   refetchQueries={[{ query: GET_AUTHORS }]}
-                  key={index}
                 >
                   {(deleteAuthor, { data }) => {
                     return (
@@ -84,7 +84,7 @@ class Authors extends Component {
                     );
                   }}
                 </Mutation>
-              </Card>
+              </div>
             );
           });
         }}
